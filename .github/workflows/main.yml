@@ -1,0 +1,39 @@
+
+name: Prime Number Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Prime Number Tests
+        run: |
+          node -e "
+          const isPrime = require('./index.js');
+          const assert = require('assert');
+
+          assert.strictEqual(isPrime(2), true);
+          assert.strictEqual(isPrime(7), true);
+          assert.strictEqual(isPrime(10), false);
+          assert.strictEqual(isPrime(1), false);
+          assert.strictEqual(isPrime(0), false);
+          assert.strictEqual(isPrime(17), true);
+
+          console.log('All prime number tests passed!');
+          "
